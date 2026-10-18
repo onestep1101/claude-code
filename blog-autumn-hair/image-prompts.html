@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>画像配置案とプロンプト集｜秋の抜け毛</title>
+<style>
+  body { font-family: "Hiragino Sans","Yu Gothic","Meiryo",sans-serif; background:#fafaf7; color:#333; margin:0; line-height:1.7; }
+  .wrap { max-width: 980px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { font-size:24px; color:#5a3e1b; }
+  h2 { font-size:20px; border-left:6px solid #d9822b; background:#fdf3e7; padding:6px 12px; margin-top:40px; }
+  table.sum { width:100%; border-collapse:collapse; font-size:14px; background:#fff; }
+  table.sum th, table.sum td { border:1px solid #ddd; padding:8px; vertical-align:top; }
+  table.sum th { background:#fdf3e7; }
+  .card { background:#fff; border:1px solid #eadfce; border-radius:8px; padding:14px 16px; margin:16px 0; }
+  .meta { font-size:14px; color:#666; margin-bottom:8px; }
+  .lbl { font-weight:bold; margin:10px 0 4px; font-size:14px; color:#7a4b12; }
+  pre { white-space:pre-wrap; word-break:break-word; background:#f6f3ee; border:1px solid #e6dccb; border-radius:6px; padding:10px; margin:0; font-family:inherit; font-size:14px; }
+  pre.code { font-family: Consolas, monospace; font-size:12px; }
+  button { margin-top:6px; padding:6px 14px; border:0; border-radius:4px; background:#d9822b; color:#fff; cursor:pointer; font-size:13px; }
+  button.done { background:#5a9a5a; }
+  .preview { overflow-x:auto; margin:8px 0; }
+  .preview table { border-collapse:collapse; width:100%; font-size:14px; background:#fff; }
+  .preview th, .preview td { border:1px solid #ddd; padding:6px 8px; }
+  .preview th { background:#fdf3e7; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>画像配置案と画像生成プロンプト（No.2 日本語／No.3 英語）</h1>
+<p>記事「秋になると抜け毛が増える理由」用。各ブロックの「コピー」ボタンでプロンプトをコピーできます。</p>
+
+<h2>No.2｜画像配置案（一覧）</h2>
+<div id="summary"></div>
+
+<h2>No.2・No.3｜画像ごとのプロンプト</h2>
+<div id="cards"></div>
+
+<h2>図解・比較表のHTMLテーブルコード</h2>
+<p>画像を作らずにテーブルのまま掲載したい場合は、そのままコピーして記事に貼れます（記事HTMLにも同じ表を設置済み）。</p>
+<div id="tables"></div>
+</div>
+
+<script>
+const EN_SUFFIX = "digital illustration, health blog style, clean and bright, high quality --ar 16:9";
+const images = [
+  { name:"はじめに（ヒーロー画像）", type:"写真風", use:"ヒーロー画像",
+    purpose:"記事の第一印象で「自分ごと」と感じさせ、読み進めてもらう",
+    jp:"秋の朝、明るい洗面所の鏡の前で、20〜30代の日本人女性が手ぐしで髪をそっと確かめている。窓から差し込む柔らかな朝日、背景に紅葉した木々、暖かいオレンジとベージュを基調にした色調。不安の中にも前向きな空気感。洗面台には木製トレイとタオル。写真風、清潔感のある明るい雰囲気、横長16:9、画像内に文字なし。",
+    en:"A medium shot of a young Japanese woman gently checking her hair with her fingers in front of a bright bathroom mirror on an autumn morning, soft morning sunlight through the window, red and orange autumn leaves outside, warm orange and beige palette, hopeful yet slightly concerned mood, wooden tray and towels on the vanity, photorealistic, " + "health blog style, clean and bright, high quality --ar 16:9" },
+  { name:"髪の毛の寿命（毛周期）", type:"インフォグラフィック", use:"インフォグラフィック",
+    purpose:"成長期・退行期・休止期の3段階を一目で理解させる",
+    jp:"髪の毛の「毛周期」を示す円形サイクル図。成長期（緑）、退行期（黄）、休止期（オレンジ）の3つに分かれたドーナツ状の矢印。各段階に断面の毛根イラストと「2〜6年」「2〜3週間」「3〜4か月」の期間ラベル。中央に「髪にも寿命がある」。背景はクリーム色、フラットでやさしいアイコン調、見やすい日本語フォント。",
+    en:"A circular infographic of the human hair growth cycle, donut-shaped arrow divided into three phases, green for growth, yellow for transition, orange for resting, simple hair follicle cross-section icons in each phase with duration labels, cream background, friendly and educational mood, flat icons, " + EN_SUFFIX },
+  { name:"秋に抜け毛が増える5つの理由", type:"図解", use:"図解",
+    purpose:"夏の負担が時間差で秋の抜け毛につながる流れを視覚化する",
+    jp:"左から右へ時間が流れる図解。左に「夏」：太陽（紫外線）、汗と皮脂、冷房の部屋、疲れた人のアイコン。中央に矢印と「2〜3か月の時間差」。右に「秋」：落ち葉と、枕に落ちた髪の毛。5つの理由に1〜5の番号つき丸アイコン。暖色系とブルーのコントラスト、手描き風のやさしいタッチ。",
+    en:"A left-to-right flow diagram showing summer stress turning into autumn hair shedding, summer on the left with sun, sweat drops, air conditioner and a tired person icon, a central arrow labeled with a two to three month delay, autumn on the right with falling leaves and hair on a pillow, five numbered circle icons, warm orange and cool blue contrast, gentle hand-drawn feel, " + EN_SUFFIX },
+  { name:"様子見でOK？病院に行くべき？", type:"比較表", use:"比較表",
+    purpose:"読者が自分の状態を判断でき、受診の行動につなげる",
+    jp:"左右2列の比較表イメージ。左「様子見でOK」は緑のチェックマークと穏やかな表情の人物、右「早めに皮膚科へ」はオレンジの注意マークと相談する人物。行は「時期」「期間」「髪の状態」「頭皮の症状」。清潔感のある白とクリーム色、見やすい表デザイン、不安をあおらない優しい配色。",
+    en:"A clean two-column comparison chart, left column with green check marks and a calm person labeled wait and watch, right column with orange caution icons and a person consulting a dermatologist, rows for timing, duration, hair condition and scalp symptoms, white and cream palette, reassuring and easy to read, " + EN_SUFFIX },
+  { name:"今日からできる秋の抜け毛ケア", type:"図解", use:"図解（4ケアの一覧）",
+    purpose:"洗髪・食事・睡眠・マッサージの具体行動を並べ、実践のハードルを下げる",
+    jp:"2×2の4分割レイアウト。①ぬるま湯で優しく洗髪、②秋の食材（サケ・卵・納豆・きのこ・さつまいも）、③ベッドで眠る人と月、④頭皮マッサージの手。各コマに番号とアイコン、秋らしいオレンジ・黄・茶色の配色、フラットでかわいいイラスト、余白多め。",
+    en:"A 2x2 grid illustration of four autumn hair care habits, gentle shampooing with lukewarm water, autumn foods such as salmon, eggs, natto, mushrooms and sweet potato, a person sleeping with a crescent moon, scalp massage with fingertips, numbered icons, orange yellow and brown autumn palette, flat cute style with generous white space, " + EN_SUFFIX },
+  { name:"よくある質問（Q&A）", type:"図解", use:"図解（吹き出し）",
+    purpose:"疑問と答えの対話形式で親しみを持たせ、離脱を防ぐ",
+    jp:"やさしい表情のキャラクター（白衣のキツネ博士）と、悩み顔の読者キャラクターが吹き出しで会話するイラスト。吹き出しに「？」と「！」のマーク、周囲に落ち葉と髪のアイコン。パステルのオレンジとミントグリーン、手描き風、親しみやすい雰囲気。",
+    en:"An illustration of a friendly fox doctor in a white coat talking with a worried reader character through speech bubbles with question and exclamation marks, falling autumn leaves and small hair icons around, pastel orange and mint green palette, hand-drawn, approachable and warm mood, " + EN_SUFFIX },
+  { name:"まとめ", type:"写真風", use:"締めくくり画像",
+    purpose:"前向きな余韻を残し、実践・シェアへの行動を促す",
+    jp:"黄金色のイチョウ並木の公園を、笑顔で歩く30代の日本人男性と女性。やわらかな夕方の光、さらさらと風になびく健やかな髪、暖かいゴールドとオレンジの色調、穏やかで前向きな雰囲気。ゆったりとした構図で右側に余白、写真風、画像内に文字なし。",
+    en:"A wide shot of a smiling Japanese man and woman in their thirties walking in a park lined with golden ginkgo trees, soft late-afternoon light, healthy hair gently moving in the breeze, warm gold and orange tones, calm and optimistic mood, empty space on the right side, photorealistic, health blog style, clean and bright, high quality --ar 16:9" }
+];
+
+const tables = [
+  { title:"毛周期の3段階（インフォグラフィックの代わり）",
+    html:`<table>
+  <thead><tr><th>時期</th><th>どんな状態？</th><th>期間の目安</th></tr></thead>
+  <tbody>
+    <tr><td>成長期</td><td>髪が太く長く育つ。頭髪の約85〜90%</td><td>2〜6年</td></tr>
+    <tr><td>退行期</td><td>成長がストップする準備期間</td><td>2〜3週間</td></tr>
+    <tr><td>休止期</td><td>髪が休み、やがて新しい髪に押し出されて抜ける</td><td>3〜4か月</td></tr>
+  </tbody>
+</table>` },
+  { title:"様子見 or 受診の比較表",
+    html:`<table>
+  <thead><tr><th>チェック項目</th><th>様子見でOKなことが多い</th><th>早めに皮膚科へ相談したい</th></tr></thead>
+  <tbody>
+    <tr><td>始まった時期</td><td>夏の終わり〜秋に増えた</td><td>季節に関係なく急に増えた</td></tr>
+    <tr><td>続く期間</td><td>2〜3か月ほどで落ち着く</td><td>3〜4か月以上減らない</td></tr>
+    <tr><td>髪の状態</td><td>ボリュームはあまり変わらない</td><td>細く短くなり、ハリやコシがない</td></tr>
+    <tr><td>薄くなる場所</td><td>全体的にまんべんなく</td><td>生え際・頭頂部、円形に抜ける</td></tr>
+    <tr><td>頭皮の症状</td><td>とくになし</td><td>赤み・強いかゆみ・フケ・痛み</td></tr>
+  </tbody>
+</table>` },
+  { title:"髪のための栄養と食材（ケアの補足表）",
+    html:`<table>
+  <thead><tr><th>栄養素</th><th>はたらき</th><th>食材の例</th></tr></thead>
+  <tbody>
+    <tr><td>タンパク質</td><td>髪の主な材料（ケラチン）</td><td>卵・魚・鶏肉・納豆・豆腐</td></tr>
+    <tr><td>鉄</td><td>酸素を運び、頭皮に届ける</td><td>赤身肉・レバー・あさり</td></tr>
+    <tr><td>亜鉛</td><td>タンパク質の合成を助ける</td><td>牡蠣・牛肉・ナッツ</td></tr>
+    <tr><td>ビタミンB群</td><td>細胞のエネルギー代謝を助ける</td><td>豚肉・納豆・卵・青魚</td></tr>
+  </tbody>
+</table>` }
+];
+
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function copyBtn(id){ return `<button data-target="${id}">コピー</button>`; }
+
+// 一覧表
+let sum = '<table class="sum"><tr><th>#</th><th>セクション名</th><th>推奨画像の種類</th><th>配置目的</th></tr>';
+images.forEach((im,i)=>{ sum += `<tr><td>${i+1}</td><td>${esc(im.name)}</td><td>${esc(im.type)}</td><td>${esc(im.purpose)}</td></tr>`; });
+document.getElementById('summary').innerHTML = sum + '</table>';
+
+// カード
+let cards = '';
+images.forEach((im,i)=>{
+  cards += `<div class="card">
+  <div class="meta"><strong>【${i+1}. ${esc(im.name)}】</strong> ／ 用途：${esc(im.use)} ／ 種類：${esc(im.type)}</div>
+  <div class="lbl">日本語プロンプト（NanoBananaPro向け）</div>
+  <pre id="jp${i}">${esc(im.jp)}</pre>${copyBtn('jp'+i)}
+  <div class="lbl">英語プロンプト（Midjourney / NanoBananaPro）</div>
+  <pre id="en${i}">${esc(im.en)}</pre>${copyBtn('en'+i)}
+</div>`;
+});
+document.getElementById('cards').innerHTML = cards;
+
+// テーブル
+let tb = '';
+tables.forEach((t,i)=>{
+  tb += `<div class="card"><div class="meta"><strong>${esc(t.title)}</strong></div>
+  <div class="preview">${t.html}</div>
+  <pre class="code" id="tb${i}">${esc(t.html)}</pre>${copyBtn('tb'+i)}</div>`;
+});
+document.getElementById('tables').innerHTML = tb;
+
+document.addEventListener('click', e=>{
+  const b = e.target.closest('button[data-target]'); if(!b) return;
+  const text = document.getElementById(b.dataset.target).textContent;
+  const done = ()=>{ const o=b.textContent; b.textContent='コピーしました ✓'; b.classList.add('done'); setTimeout(()=>{b.textContent=o; b.classList.remove('done');},1500); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(()=>fallback(text,done));
+  } else fallback(text,done);
+});
+function fallback(text, done){
+  const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); done(); }catch(_){} document.body.removeChild(ta);
+}
+</script>
+</body>
+</html>
