@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SNS拡散用投稿集｜秋の抜け毛</title>
+<style>
+  body { font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif; background:#fafaf7; color:#333; margin:0; line-height:1.7; }
+  .wrap { max-width:900px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { font-size:24px; color:#5a3e1b; }
+  h2 { font-size:20px; border-left:6px solid #d9822b; background:#fdf3e7; padding:6px 12px; margin-top:40px; }
+  .rule { font-size:13px; color:#666; margin:4px 0 12px; }
+  .card { background:#fff; border:1px solid #eadfce; border-radius:8px; padding:14px 16px; margin:14px 0; }
+  .meta { font-size:14px; margin-bottom:6px; }
+  .count { font-size:12px; color:#888; }
+  .lbl { font-weight:bold; font-size:13px; color:#7a4b12; margin:10px 0 4px; }
+  pre { white-space:pre-wrap; word-break:break-word; background:#f6f3ee; border:1px solid #e6dccb; border-radius:6px; padding:10px; margin:0; font-family:inherit; font-size:14px; }
+  button { margin-top:6px; padding:6px 14px; border:0; border-radius:4px; background:#d9822b; color:#fff; cursor:pointer; font-size:13px; }
+  button.done { background:#5a9a5a; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>SNS拡散用 投稿文＋画像生成プロンプト</h1>
+<p>記事「秋になると抜け毛が増える理由」用。X／Instagram／LINE／Threads／Pinterest × 3パターン（共感型／驚き・数字型／行動提案型）。<br>※ URLは <code>https://example.com/autumn-hair</code> を実際の記事URLに差し替えてください。</p>
+<div id="root"></div>
+</div>
+
+<script>
+const URL_ = "https://example.com/autumn-hair";
+const platforms = [
+  { name:"X（旧Twitter）", rule:"本文140字以内（全角換算）／URLは約23字として計算／ハッシュタグは1〜2個／画像比率 16:9（1200×675）または1:1",
+    posts:[
+      { pat:"①共感型", text:`最近、排水口の髪が気になる…🍂
+それ、あなただけじゃないです。
+秋の抜け毛は「夏の疲れが時間差で出ているだけ」のことが多いんです。
+原因5つと今日からできるケアをまとめました👇
+${URL_}
+#秋の抜け毛 #頭皮ケア`,
+        jp:"秋の朝の洗面所で、排水口を見て少し不安そうな日本人女性。やわらかい朝日、オレンジとベージュの暖かい色調、写真風、16:9、文字なし。",
+        en:"A young Japanese woman looking slightly worried at a bathroom sink in soft autumn morning light, warm orange and beige palette, photorealistic, clean and bright, high quality --ar 16:9" },
+      { pat:"②驚き・数字型", text:`【知ってた？】
+髪は1日50〜100本抜けるのが「ふつう」。
+そして夏のダメージは2〜3か月遅れて抜け毛に出ます😳
+秋に増えるワケ、5つに整理しました。
+${URL_}
+#抜け毛 #毛周期`,
+        jp:"「50〜100本/日」「2〜3か月の時間差」を大きな数字で見せるインフォグラフィック。クリーム色の背景、オレンジと緑のアクセント、髪と時計のアイコン、16:9。",
+        en:"A bold infographic highlighting the numbers 50-100 hairs per day and a 2-3 month delay, cream background, orange and green accents, hair and clock icons, flat design, clean and bright, high quality --ar 16:9" },
+      { pat:"③行動提案型", text:`今日からできる秋の抜け毛ケア3つ✅
+①ぬるま湯で予洗い1分
+②毎食タンパク質＋鉄・亜鉛
+③7時間睡眠
+まずは1つ、1か月だけ続けてみて。
+詳しくはこちら👇
+${URL_}
+#頭皮ケア #健康習慣`,
+        jp:"洗髪・食事・睡眠を表す3つのチェックリスト型アイコン、緑のチェックマーク、秋の食材をあしらったフラットなイラスト、16:9、白とオレンジ基調。",
+        en:"A flat illustration checklist with three items, shampooing, balanced meal and sleep, green check marks, autumn food accents, white and orange palette, clean and bright, high quality --ar 16:9" }
+    ]},
+  { name:"Instagram", rule:"キャプション2,200字以内／冒頭125字で続きを読ませる／ハッシュタグは5〜15個程度を末尾に／画像は4:5（1080×1350）、1枚目で止める／リンクは投稿に貼れないのでプロフィールへ誘導",
+    posts:[
+      { pat:"①共感型", text:`シャンプーのたびに、ドキッとしていませんか？🍂
+
+秋になると髪が抜けやすくなるのは、
+実は「夏、がんばりすぎた体のサイン」であることが多いんです。
+
+・夏の紫外線ダメージ
+・汗と皮脂で乱れた頭皮
+・夏バテや睡眠不足
+・秋の寒暖差と乾燥
+これらが時間差で髪に出てきます。
+
+だから大丈夫。
+今日からできる、やさしいケアを始めましょう🌿
+詳しい解説はプロフィールのリンクから。
+
+#秋の抜け毛 #抜け毛対策 #頭皮ケア #ヘアケア #髪のお悩み #季節の変わり目 #夏の疲れ #健康習慣 #美髪 #セルフケア`,
+        jp:"縦長4:5。秋の洗面所で髪に触れる女性の後ろ姿、窓際の柔らかい光、ベージュとオレンジの色調、上部に余白、写真風、おしゃれで落ち着いた雰囲気、文字なし。",
+        en:"A vertical 4:5 photo of a woman from behind touching her hair at a window in a bathroom, soft natural light, beige and orange tones, space at the top, calm and stylish mood, photorealistic --ar 4:5" },
+      { pat:"②驚き・数字型", text:`髪の毛は「約10万本」。
+1日に抜けるのは50〜100本がふつう。
+そして夏の負担は、2〜3か月遅れて抜け毛に出ます。
+
+＝ 秋の抜け毛は「夏の通知表」📮
+
+スワイプして、5つの理由を確認👉
+保存して、シャンプー前に見返してね📌
+
+#毛周期 #休止期脱毛 #秋の抜け毛 #頭皮ケア #ヘアサイクル #髪の豆知識 #健康情報 #抜け毛予防`,
+        jp:"縦長4:5のカルーセル1枚目。「10万本」「50〜100本」の大きな数字、毛周期のドーナツ図、クリーム背景、オレンジと緑、見出し用の余白あり、インフォグラフィック調。",
+        en:"A vertical 4:5 carousel cover infographic with large numbers 100,000 and 50-100, a hair growth cycle donut chart, cream background, orange and green accents, space for headline, flat design, clean and bright, high quality --ar 4:5" },
+      { pat:"③行動提案型", text:`【保存版】秋の抜け毛ケア4ステップ🍂
+
+1️⃣ ぬるま湯で予洗い→指の腹で優しく洗う
+2️⃣ サケ・卵・納豆・きのこでタンパク質
+3️⃣ 寝る1〜2時間前にぬるめのお風呂
+4️⃣ 帽子や日傘で秋も頭皮の紫外線対策
+
+全部は大変なので、まず1つだけ。
+1か月続けたら、髪の変化をコメントで教えてね💬
+
+※3〜4か月以上続く場合は皮膚科へ。
+
+#頭皮ケア #ヘアケア習慣 #秋の抜け毛 #保存版 #美髪習慣 #セルフケア #健康オタク`,
+        jp:"縦長4:5。2×2の4分割で洗髪、秋の食材、睡眠、帽子の4つを描いたフラットなイラスト、秋色のオレンジ・黄・茶、番号つき、余白多め。",
+        en:"A vertical 4:5 flat illustration in a 2x2 grid showing shampooing, autumn foods, sleeping and a hat for sun protection, numbered, orange yellow and brown palette, generous white space, clean and bright, high quality --ar 4:5" }
+    ]},
+  { name:"LINE（LINE VOOM／友だち配信）", rule:"短く読みやすく（本文300〜500字目安）／絵文字は適度に／ハッシュタグ文化は弱いので基本なし（VOOMのみ1〜2個）／画像は1:1または1.91:1（1200×628）／URLは文末に",
+    posts:[
+      { pat:"①共感型", text:`🍂秋の抜け毛、気になりますよね
+
+実はこれ、夏の疲れが時間差で髪に出ているだけのことが多いそうです。
+焦らなくて大丈夫👌
+
+原因5つと、今日からできるケアをやさしくまとめました。
+👇
+${URL_}`,
+        jp:"1:1。やわらかいパステルオレンジの背景に、ほっとした表情の人物と落ち葉、手描き風のやさしいイラスト、文字なし。",
+        en:"A square 1:1 soft pastel orange background with a relieved person and falling leaves, gentle hand-drawn illustration, warm and reassuring, clean and bright, high quality --ar 1:1" },
+      { pat:"②驚き・数字型", text:`📣知ってました？
+髪は1日50〜100本抜けるのが普通。
+夏のダメージは2〜3か月遅れて出ます。
+
+だから「秋に抜け毛が増える」のは自然なことも多いんです。
+見分け方もまとめました✅
+${URL_}`,
+        jp:"1.91:1。「2〜3か月の時間差」を夏の太陽から秋の落ち葉への矢印で表した横長の図解、オレンジとブルーの対比、シンプルでわかりやすい。",
+        en:"A wide 1.91:1 diagram with an arrow from a summer sun to autumn leaves showing a two to three month delay, orange and blue contrast, simple and clear, flat design, clean and bright, high quality --ar 1.91:1" },
+      { pat:"③行動提案型", text:`🌿今日の1分ケア
+シャンプー前に、38℃くらいのぬるま湯で1分予洗い。
+これだけで頭皮の汚れがかなり落ちて、洗いすぎ防止にもなります。
+
+ほかのケアはこちら👇
+${URL_}`,
+        jp:"1:1。シャワーでぬるま湯を浴びる手元のアップ、湯気と水滴、やわらかい白とオレンジの光、写真風、清潔感のある雰囲気、文字なし。",
+        en:"A square 1:1 close-up of hands rinsing hair under a shower with warm water, steam and droplets, soft white and orange light, photorealistic, clean and bright, high quality --ar 1:1" }
+    ]},
+  { name:"Threads", rule:"500字以内／ハッシュタグ（トピックタグ）は1個が基本／会話を促す書き出しと問いかけ／画像は1:1または4:5／リンクは別投稿・返信に置いてもOK",
+    posts:[
+      { pat:"①共感型", text:`秋になると、毎年「抜け毛増えた…」って思いませんか？
+
+実はそれ、夏にがんばった体が、時間差で教えてくれているサインのことが多いです。
+夏の紫外線、汗・皮脂、冷房疲れ、睡眠不足。
+
+あなたは、どれがいちばん思い当たりますか？
+
+${URL_}
+
+#秋の抜け毛`,
+        jp:"4:5。秋の窓辺で温かい飲み物を持ちながら髪を気にする人物、落ち着いたベージュとブラウン、写真風、文字なし。",
+        en:"A vertical 4:5 photo of a person holding a warm drink by an autumn window while touching their hair, calm beige and brown tones, photorealistic, cozy mood --ar 4:5" },
+      { pat:"②驚き・数字型", text:`豆知識🍂
+髪には「寿命」があって、成長期2〜6年→退行期2〜3週間→休止期3〜4か月。
+休止期の髪が一斉に増えると、2〜3か月後にまとめて抜けるんです。
+
+夏のダメージが秋に出るのは、この時間差のせい。
+
+${URL_}
+
+#毛周期`,
+        jp:"1:1。毛周期3段階の円形インフォグラフィック、緑・黄・オレンジ、クリーム背景、フラットなアイコン調。",
+        en:"A square 1:1 circular infographic of the three hair growth phases in green, yellow and orange, cream background, flat icons, clean and bright, high quality --ar 1:1" },
+      { pat:"③行動提案型", text:`抜け毛ケア、まずはこの3つだけでOKです。
+①やさしく洗う（予洗い1分）
+②毎食タンパク質
+③7時間寝る
+
+1か月続けて、変化があったら教えてください🙌
+
+${URL_}
+
+#頭皮ケア`,
+        jp:"1:1。洗髪・食事・睡眠の3つのアイコンが並ぶシンプルなイラスト、白背景にオレンジのアクセント、大きな余白。",
+        en:"A square 1:1 simple illustration with three icons for shampooing, meal and sleep, white background with orange accents, lots of white space, clean and bright, high quality --ar 1:1" }
+    ]},
+  { name:"Pinterest", rule:"縦長2:3（1000×1500）が推奨／タイトル100字以内・説明500字以内／キーワードを自然に含める／ハッシュタグは補助的に2〜5個／リンク先は記事URL",
+    posts:[
+      { pat:"①共感型", text:`タイトル：秋になると抜け毛が増える理由｜夏の疲れが原因？
+説明：シャンプーのたびに抜け毛が気になる方へ。秋の抜け毛は、夏の紫外線ダメージ・頭皮環境の乱れ・夏バテが時間差で髪に出ているケースが多いです。原因5つと今日からできる頭皮ケアをわかりやすく解説します。
+リンク：${URL_}
+#抜け毛対策 #頭皮ケア #秋の抜け毛`,
+        jp:"縦長2:3。上部に余白、秋の洗面所で髪を気にする女性の写真風イラスト、暖かいオレンジとベージュ、タイトル文字を載せやすい構図、おしゃれで清潔感のある雰囲気。",
+        en:"A vertical 2:3 pin image of a woman checking her hair in an autumn bathroom, space at the top for title text, warm orange and beige palette, stylish and clean, photorealistic --ar 2:3" },
+      { pat:"②驚き・数字型", text:`タイトル：秋の抜け毛5つの理由【図解】毛周期の仕組みも
+説明：髪の毛は約10万本。1日50〜100本抜けるのは正常範囲です。夏のダメージは2〜3か月遅れて抜け毛に表れます。紫外線・皮脂・毛周期・夏バテ・寒暖差の5つの理由を図解で整理しました。
+リンク：${URL_}
+#毛周期 #休止期脱毛 #抜け毛原因`,
+        jp:"縦長2:3。上から下へ1〜5の理由を並べた縦型インフォグラフィック、各項目に丸アイコン、クリーム背景、オレンジと緑、見出し用の余白。",
+        en:"A vertical 2:3 infographic listing five numbered reasons from top to bottom with circular icons, cream background, orange and green accents, space for headline, flat design, clean and bright, high quality --ar 2:3" },
+      { pat:"③行動提案型", text:`タイトル：【保存版】秋の抜け毛ケア4ステップ｜洗い方・食事・睡眠
+説明：今日からできる秋の抜け毛ケアをまとめました。ぬるま湯で予洗い、タンパク質・鉄・亜鉛の食事、7時間睡眠、頭皮マッサージと紫外線対策。受診の目安もチェックリストで紹介しています。
+リンク：${URL_}
+#ヘアケア #頭皮マッサージ #秋の健康習慣`,
+        jp:"縦長2:3。4つのケア（洗髪・食事・睡眠・マッサージ）を縦に並べたチェックリスト風の図解、秋色のオレンジ・黄・茶、可愛いフラットイラスト。",
+        en:"A vertical 2:3 checklist-style illustration of four hair care steps, shampooing, food, sleep and scalp massage, autumn orange yellow and brown palette, cute flat illustration, clean and bright, high quality --ar 2:3" }
+    ]}
+];
+
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+let html = '', n = 0;
+platforms.forEach(p=>{
+  html += `<h2>${esc(p.name)}</h2><div class="rule">作法：${esc(p.rule)}</div>`;
+  p.posts.forEach(po=>{
+    const a='t'+n, b='j'+n, c='e'+n; n++;
+    html += `<div class="card">
+    <div class="meta"><strong>${esc(po.pat)}</strong> <span class="count">（投稿文 ${po.text.length}字）</span></div>
+    <div class="lbl">投稿文</div><pre id="${a}">${esc(po.text)}</pre><button data-target="${a}">コピー</button>
+    <div class="lbl">画像生成プロンプト（日本語）</div><pre id="${b}">${esc(po.jp)}</pre><button data-target="${b}">コピー</button>
+    <div class="lbl">画像生成プロンプト（英語）</div><pre id="${c}">${esc(po.en)}</pre><button data-target="${c}">コピー</button>
+    </div>`;
+  });
+});
+document.getElementById('root').innerHTML = html;
+
+document.addEventListener('click', e=>{
+  const b = e.target.closest('button[data-target]'); if(!b) return;
+  const text = document.getElementById(b.dataset.target).textContent;
+  const done = ()=>{ const o=b.textContent; b.textContent='コピーしました ✓'; b.classList.add('done'); setTimeout(()=>{b.textContent=o; b.classList.remove('done');},1500); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(()=>fallback(text,done));
+  } else fallback(text,done);
+});
+function fallback(text, done){
+  const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); done(); }catch(_){} document.body.removeChild(ta);
+}
+</script>
+</body>
+</html>
